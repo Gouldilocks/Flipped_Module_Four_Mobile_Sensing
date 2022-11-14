@@ -16,7 +16,7 @@
 // to see what your public facing IP address is, the ip address can be used here
 
 // CHANGE THIS TO THE URL FOR YOUR LAPTOP
-let SERVER_URL = "http://10.0.1.6:8000" // change this for your server name!!!
+let SERVER_URL = "http://10.8.5.90:8000" // change this for your server name!!!
 
 import UIKit
 import CoreMotion
@@ -262,14 +262,14 @@ class ViewController: UIViewController, URLSessionDelegate {
         startMotionUpdates()
         
         dsid = 1 // set this and it will update UI
+        tempDSID = 1
+        stepper.value = 1
     }
 
     @IBAction func onStepperChange(_ sender: UIStepper) {
-        stepperLabel.text = String(sender.value)
-        
-        self.tempDSID = Int(sender.value + 1)
+        self.tempDSID = Int(sender.value)
         if (tempDSID != dsid){
-            self.dsidLabel.text = "(" + String(Int(sender.value)+1) + ") Click Get New DSID"
+            self.dsidLabel.text = "(" + String(Int(sender.value)) + ") Click Get New DSID"
         }
         else {
             self.dsidLabel.text = "Current DSID: " + String(self.dsid)
@@ -292,10 +292,10 @@ class ViewController: UIViewController, URLSessionDelegate {
                 else{
                     let jsonDictionary = self.convertDataToDictionary(with: data)
                     
-                    // This better be an integer
-                    if let dsid = jsonDictionary["dsid"]{
-                        self.dsid = dsid as! Int
-                    }
+//                    // This better be an integer
+//                    if let dsid = jsonDictionary["dsid"]{
+//                        self.dsid = dsid as! Int
+//                    }
                 }
                 
         })
@@ -374,6 +374,10 @@ class ViewController: UIViewController, URLSessionDelegate {
                             }
                         }
                         else{ // no error we are aware of
+                            // print the response anyways
+                            if let res = response {
+                                print("Response: ", res)
+                            }
                             let jsonDictionary = self.convertDataToDictionary(with: data)
                             
                             let labelResponse = jsonDictionary["prediction"]!

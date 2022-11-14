@@ -104,7 +104,7 @@ class PredictOneFromDatasetId(BaseHandler):
 
         # load the model from the database (using pickle)
         # we are blocking tornado!! no!!
-        if not dsid in clf:
+        if not dsid in self.clf:
             print('Loading Model From file')
             self.write_json({"modelExists":False})
             self.clf[dsid] = tc.load_model('../models/turi_model_dsid%d'%(dsid))
